@@ -133,16 +133,21 @@ fun Greeting2(name: String, modifier: Modifier = Modifier) {
         Button(
             onClick = {
                 val prefs = contexto1.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+
+                //creamos variables que guarden el valor del usuario y la contraseña que tiene SharedPreferences para poder compararla
                 val usuarioGuardado = prefs.getString(CLAVE_USUARIO, null)
                 val contrasenaGuardada = prefs.getString(CLAVE_CONTRASENA, null)
 
+                //creamos variables que guarden lo que el usuario ponga en el formulario para poder comparar
                 val inputUsuario = campoUsuario.text.trim()
                 val inputContrasena = campoContrasena.text
 
                 when {
+                    //si el usuario o contraseña no está en SharedPreferences, salta el error
                     usuarioGuardado.isNullOrEmpty() || contrasenaGuardada.isNullOrEmpty() -> {
                         mensajeError = "No hay ninguna cuenta registrada. Pulsa 'Registrarse'."
                     }
+                    //si coincide lo que guarda SharedPreferences con lo que escribe el usuario, pasa a la activity Datos
                     inputUsuario == usuarioGuardado && inputContrasena == contrasenaGuardada -> {
                         mensajeError = ""
                         contexto1.startActivity(Intent(contexto1, Datos::class.java))

@@ -86,7 +86,6 @@ fun Greeting3(name: String, modifier: Modifier = Modifier) {
     }
 
     var contexto1 = LocalContext.current
-    var intent1 = Intent(contexto1, Inicio::class.java)
 
 
     Column(
@@ -143,26 +142,31 @@ fun Greeting3(name: String, modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
+                //creamos variable que guarden lo que se escribe en el formulario
                 val nombre = campoNombre.text.trim()
                 val email = campoEmail.text.trim()
-                val pass = campoContrasena.text
+                val contrasena = campoContrasena.text
 
                 when {
+                    //validamos todos los campos, y si alguno falla, salta el error
                     nombre.length < 3 -> mensajeError = "El nombre debe tener más de 3 caracteres"
                     !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> mensajeError = "El email no es válido"
-                    !Regex("^(?=.*[A-Z])(?=.*[0-9])(?=.*[.@/]).{8,}$").matches(pass) ->
+                    !Regex("^(?=.*[A-Z])(?=.*[0-9])(?=.*[.@/]).{8,}$").matches(contrasena) ->
                         mensajeError = "La contraseña debe tener mínimo 8 caracteres, una mayúscula, un número y un caracter especial (. / @)"
                     else -> {
+                        //si todo está bien, pasamos abrir SharedPreferences
                         val prefs = contexto1.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
+                        //guardamos los escrito en el formulario en SharedPreferences
                         prefs.edit().apply {
                             putString(CLAVE_USUARIO, nombre)
                             putString(CLAVE_EMAIL, email)
-                            putString(CLAVE_CONTRASENA, pass)
+                            putString(CLAVE_CONTRASENA, contrasena)
                             apply()
                         }
                         mensajeError = "Registro correcto"
 
+                        //Pasamos a la activity Inicio para iniciar sesion
                         contexto1.startActivity(Intent(contexto1, Inicio::class.java))
                     }
                 }

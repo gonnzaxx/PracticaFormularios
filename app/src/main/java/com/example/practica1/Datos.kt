@@ -142,18 +142,21 @@ fun Greeting5(name: String, modifier: Modifier = Modifier) {
         Button(
             onClick = {
 
+                //validamos que cada campo escrito cumpla con los requisitos
                 val nombreOk = campoNombre.text.trim().length >= 3
                 val emailOk = Patterns.EMAIL_ADDRESS.matcher(campoEmail.text.trim()).matches()
                 val contrasenaOk = Regex("^(?=.*[A-Z])(?=.*[0-9])(?=.*[.@/]).{8,}$")
                     .matches(campoContrasena.text)
 
                 when {
+                    //si alguno no cumple mandamos mensaje de error
                     !nombreOk -> mensajeError = "El nombre debe tener más de 3 caracteres"
                     !emailOk -> mensajeError = "El email no es válido"
                     !contrasenaOk -> mensajeError =
                         "La contraseña debe tener mínimo 8 caracteres, una mayúscula, un número y un caracter especial (. / @)"
                     else -> {
 
+                        //de lo contrario, guardamos los cambios en SharedPreferences
                         prefs.edit().apply {
                             putString("usuario", campoNombre.text.trim())
                             putString("email", campoEmail.text.trim())
