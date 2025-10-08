@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Practica1</string>
+    <string name="title_activity_formulario">Formulario</string>
+    <string name="title_activity_inicio">Inicio</string>
+    <string name="title_activity_contactos">Contactos</string>
+    <string name="title_activity_datos">Datos</string>
+</resources>
